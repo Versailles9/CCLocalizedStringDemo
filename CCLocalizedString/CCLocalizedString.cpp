@@ -29,37 +29,37 @@ void PurgeCCLocalizedStringCached()
 const char * CCLocalizedString(const char * mKey,const char * mComment)
 {
     
-    ccLanguageType curLanguage = CCApplication::sharedApplication()->getCurrentLanguage();
+    LanguageType curLanguage = Application::getInstance()->getCurrentLanguage();
     const char * fileName;
     switch (curLanguage) {
-        case kLanguageEnglish:
+        case LanguageType::ENGLISH:
             fileName = "Localized_en";
             break;
-        case kLanguageChinese:
+        case LanguageType::CHINESE:
             fileName = "Localized_zh";
             break;
-        case kLanguageFrench:
+        case LanguageType::FRENCH:
             fileName = "Localized_fr";
             break;
-        case kLanguageItalian:
+        case LanguageType::ITALIAN:
             fileName = "Localized_it";
             break;
-        case kLanguageGerman:
+        case LanguageType::GERMAN:
             fileName = "Localized_ge";
             break;
-        case kLanguageSpanish:
+        case LanguageType::SPANISH:
             fileName = "Localized_sp";
             break;
-        case kLanguageRussian:
+        case LanguageType::RUSSIAN:
             fileName = "Localized_ru";
             break;
-        case kLanguageKorean:
+        case LanguageType::KOREAN:
             fileName = "Localized_ko";
             break;
-        case kLanguageJapanese:
+        case LanguageType::JAPANESE:
             fileName = "Localized_jp";
             break;
-        case kLanguageHungarian:
+        case LanguageType::HUNGARIAN:
             fileName = "Localized_hu";
             break;
         /**
@@ -75,16 +75,14 @@ const char * CCLocalizedString(const char * mKey,const char * mComment)
     if (localizedStrings.empty()) 
     {
         // Initialize variables needed
-        unsigned long fileSize = 0;
         unsigned char * fileContents = NULL;
         string line, fullPath, contents;
         
         // Get absolute path of file
-        fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename( fileName );
+        fullPath = FileUtils::getInstance()->fullPathForFilename(fileName).c_str();
         
         // Get data of file
-        fileContents = CCFileUtils::sharedFileUtils()->getFileData( fullPath.c_str( ) , "rb", &fileSize );
-        contents.assign(fileContents,fileContents+fileSize-1);
+        contents = FileUtils::getInstance()->getStringFromFile(fullPath);
         
         // Create a string stream so that we can use getline( ) on it
         istringstream fileStringStream( contents );
